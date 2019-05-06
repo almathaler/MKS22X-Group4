@@ -10,6 +10,8 @@ interface Moveable {
 
 abstract class Thing implements Displayable {
   float x, y;//Position of the Thing
+  float xinc = random(-1, 1);
+  float yinc = random(-1, 1);
 
   Thing(float x, float y) {
     this.x = x;
@@ -39,10 +41,8 @@ public class LivingRock extends Rock implements Moveable {
     c) A more complex path
     d) Randomly choose between several paths.  (you may need a new constructor for this)
     ONE PERSON WRITE THIS */
-    float xinc = random(-1, 1);
-    float yinc = random(-1, 1);
-    x = random(1000);
-    y = random(800);
+    x += xinc;
+    y += yinc;
   }
 }
 
