@@ -30,8 +30,16 @@ public class LivingRock extends Rock implements Moveable {
   LivingRock(float x, float y) {
     super(x, y);
   }
-  void move() {
-    /* ONE PERSON WRITE THIS */
+  void move() { //change x, y by small increments
+  /*  a) Random Movement to test it out
+    b) A simple path (may need some instance variables from here onward)
+    c) A more complex path
+    d) Randomly choose between several paths.  (you may need a new constructor for this)
+    ONE PERSON WRITE THIS */
+    float xinc = random(-1, 1);
+    float yinc = random(-1, 1);
+    x = random(1000);
+    y = random(800);
   }
 }
 
