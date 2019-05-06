@@ -27,7 +27,11 @@ class Rock extends Thing {
 
   void display() {
     fill(128, 128, 128); //Gray
-    ellipse(x, y, 100, 50);
+    ellipse(x, y, 100, 70);
+    fill(0);
+    //Smiley face
+    circle(x - 15, y - 15, 10);
+    circle(x + 15, y - 15, 10);
   }
 }
 
@@ -61,6 +65,7 @@ public class LivingRock extends Rock implements Moveable {
 
 
 class Ball extends Thing implements Moveable {
+  PImage img;
   Ball(float x, float y) {
 
     super(x, y);
@@ -71,10 +76,16 @@ class Ball extends Thing implements Moveable {
     float r = random(0, 255);
     float g = random(0, 255);
     float b = random(0, 255);
-    float axis1 = random(10, 51);
-    float axis2 = random(10, 51);
-    fill(r, g, b);
-    ellipse(x, y, axis1, axis2);
+    float axis1 = random(40, 51);
+    float axis2 = random(40, 51);
+    if (random(2) >= .5){
+      fill(r, g, b);
+      ellipse(x, y, axis1, axis2);
+    }
+    else{
+      img = loadImage("ballBlue.jpeg");
+      image(img, x, y, axis1, axis2);
+    }
   }
 
   void move() {
