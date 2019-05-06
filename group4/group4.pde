@@ -54,11 +54,11 @@ class Ball extends Thing implements Moveable {
 
   void display() {
     /* ONE PERSON WRITE THIS  --Alma */
-    int r = random(0, 255);
-    int g = random(0, 255);
-    int b = random(0, 255);
-    int axis1 = random(10, 51);
-    int axis2 = random(10, 51);
+    float r = random(0, 255);
+    float g = random(0, 255);
+    float b = random(0, 255);
+    float axis1 = random(10, 51);
+    float axis2 = random(10, 51);
     fill(r, g, b);
     ellipse(x, y, axis1, axis2);
   }
