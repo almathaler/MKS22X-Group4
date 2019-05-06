@@ -47,8 +47,16 @@ public class LivingRock extends Rock implements Moveable {
     ONE PERSON WRITE THIS */
     x += xinc;
     y += yinc;
+    if (x >= 1000 || x <= 0){
+      xinc *= -1;
+    }
+    if (y >= 800 || y <= 0){
+      yinc *= -1;
+    }
+      
   }
 }
+
 
 class Ball extends Thing implements Moveable {
   Ball(float x, float y) {
