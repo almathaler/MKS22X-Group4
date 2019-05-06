@@ -43,7 +43,12 @@ class Ball extends Thing implements Moveable {
   }
 
   void display() {
-    /* ONE PERSON WRITE THIS */
+    /* ONE PERSON WRITE THIS  --Alma */
+    int r = random(0, 255);
+    int g = random(0, 255);
+    int b = random(0, 255);
+    fill(r, g, b);
+    ellipse(x, y, 40, 40);
   }
 
   void move() {
