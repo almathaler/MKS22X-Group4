@@ -1,3 +1,5 @@
+import java.util.*;
+import java.io.*;
 interface Displayable {
   void display();
 }
@@ -47,6 +49,21 @@ class Ball extends Thing implements Moveable {
 
   void move() {
     /* ONE PERSON WRITE THIS */
+    if (x == 1000 && y == 800){
+       x -= 1; 
+       y -= 1;
+    } else 
+    if (y == 800){
+       y -= 1; 
+       x += random(3) - 1;
+    } else
+    if (x == 1000){
+      x -= 1;
+      y += random(3) - 1;
+    } else {
+    x += random(3) - 1;
+    y += random(3) - 1;
+    }
   }
 }
 
