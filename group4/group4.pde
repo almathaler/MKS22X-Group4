@@ -27,7 +27,11 @@ class Rock extends Thing {
 
   void display() {
     fill(128, 128, 128); //Gray
-    ellipse(x, y, 100, 50);
+    ellipse(x, y, 100, 70);
+    fill(0);
+    //Smiley face
+    circle(x - 15, y - 15, 10);
+    circle(x + 15, y - 15, 10);
   }
 }
 
@@ -43,8 +47,16 @@ public class LivingRock extends Rock implements Moveable {
     ONE PERSON WRITE THIS */
     x += xinc;
     y += yinc;
+    if (x >= 1000 || x <= 0){
+      xinc *= -1;
+    }
+    if (y >= 800 || y <= 0){
+      yinc *= -1;
+    }
+      
   }
 }
+
 
 class Ball extends Thing implements Moveable {
   PImage img;
