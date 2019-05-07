@@ -47,6 +47,14 @@ public class LivingRock extends Rock implements Moveable {
 }
 
 class Ball extends Thing implements Moveable {
+  float xspeed = random(-1,1);
+  float yspeed = random(-1,1);
+  int red = (int)random(256);
+  int green = (int)random(256);
+  int blue = (int)random(256);
+  float axis1 = random(10, 51);
+  float axis2 = random(10, 51);
+  
   Ball(float x, float y) {
 
     super(x, y);
@@ -54,34 +62,41 @@ class Ball extends Thing implements Moveable {
 
   void display() {
     /* ONE PERSON WRITE THIS  --Alma */
-    int r = random(0, 255);
-    int g = random(0, 255);
-    int b = random(0, 255);
-    int axis1 = random(10, 51);
-    int axis2 = random(10, 51);
-    fill(r, g, b);
+    /*
+    float r = random(0, 255);
+    float g = random(0, 255);
+    float b = random(0, 255);
+    */
+   
+    fill(red, green, blue);
     ellipse(x, y, axis1, axis2);
   }
 
   void move() {
-    /* ONE PERSON WRITE THIS */
-    if (x == 1000 && y == 800){
-       x -= 1; 
-       y -= 1;
+    /* ONE PERSON WRITE THIS  Alex */
+     //random movement
+    if (x >= width && y >= height || x <= 0 && y <= 0){
+       xspeed *= -1; 
+       yspeed *= -1;
     } else 
-    if (y == 800){
-       y -= 1; 
-       x += random(3) - 1;
+    if (y >= height || y <= 0){
+       yspeed *= -1; 
+     //  xspeed *= - 1;
     } else
-    if (x == 1000){
-      x -= 1;
-      y += random(3) - 1;
-    } else {
-    x += random(3) - 1;
-    y += random(3) - 1;
+    if (x >= width || x <= 0){
+      xspeed *= -1;
+     // yspeed *= - 1;
     }
+    x += xspeed;
+    y += yspeed;
+    }
+    
+    /* movement in straight lines but random*/
+    //if (direction == 0){
+      // x 
+    //}
   }
-}
+
 
 /*DO NOT EDIT THE REST OF THIS */
 
