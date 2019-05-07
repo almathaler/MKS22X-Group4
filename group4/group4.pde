@@ -21,20 +21,23 @@ abstract class Thing implements Displayable {
 }
 
 class Rock extends Thing {
+  PImage img1;
+  
   Rock(float x, float y) {
     super(x, y);
+    img1 = loadImage("Rock.jpg");
   }
 
   void display() {
-    
-    PImage img1 = loadImage("rock.jpg");
-    //image(img, x, y, axis1, axis2);
+    image(img1, x, y, 200, 100);
+    /*
     fill(128, 128, 128); //Gray
     ellipse(x, y, 100, 70);
     fill(0);
     //Smiley face
     circle(x - 15, y - 15, 10);
     circle(x + 15, y - 15, 10);
+    */
   }
 }
 
