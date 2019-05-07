@@ -50,6 +50,14 @@ public class LivingRock extends Rock implements Moveable {
   LivingRock(float x, float y) {
     super(x, y);
   }
+  
+  void display() {
+    super.display();
+    fill(0);
+    circle(x - 15, y - 15, 10);
+    circle(x + 15, y - 15, 10);
+  }
+  
   void move() { //change x, y by small increments
   /*  a) Random Movement to test it out
     b) A simple path (may need some instance variables from here onward)
