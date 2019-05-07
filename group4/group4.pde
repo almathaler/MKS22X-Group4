@@ -46,20 +46,22 @@ public class LivingRock extends Rock implements Moveable {
     d) Randomly choose between several paths.  (you may need a new constructor for this)
     ONE PERSON WRITE THIS */
    ////////LINEAR WITH BOUNCES///////
-    x += xinc;
+  /*  x += xinc;
     y += yinc;
-    /*if (x >= 1000 || x <= 0){
+    */
+    
+    ///////SPIRAL AND REWIND//////
+    x +=  5 * cos(xinc);
+    y +=  5 * sin(yinc);
+    
+      
+   ////////BOUNCING///////// 
+     if (x >= 1000 || x <= 0){
       xinc *= -1;
     }
     if (y >= 800 || y <= 0){
       yinc *= -1;
-    }*/
-    
-    ///////SPIRAL AND REWIND//////
-    x =  5 * cos(xinc);
-    y =  5 * sin(yinc);
-    
-      
+    }
   }
 }
 
