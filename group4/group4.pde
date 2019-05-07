@@ -22,10 +22,15 @@ abstract class Thing implements Displayable {
 
 class Rock extends Thing {
   PImage img1;
+  //PImage img2;
   
   Rock(float x, float y) {
     super(x, y);
-    img1 = loadImage("Rock.jpg");
+    if (random(2) > 1) {
+      img1 = loadImage("Rock.png");
+    } else {
+      img1 = loadImage("Rock2.png");
+    }
   }
 
   void display() {
