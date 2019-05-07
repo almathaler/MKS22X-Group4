@@ -26,6 +26,9 @@ class Rock extends Thing {
   }
 
   void display() {
+    
+    PImage img1 = loadImage("rock.jpg");
+    //image(img, x, y, axis1, axis2);
     fill(128, 128, 128); //Gray
     ellipse(x, y, 100, 70);
     fill(0);
