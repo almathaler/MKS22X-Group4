@@ -31,6 +31,8 @@ abstract class Thing implements Displayable, Collideable {
 class Rock extends Thing {
   PImage img1;
   //PImage img2;
+  int width = 200;
+  int height = 100;
   
   Rock(float x, float y) {
     super(x, y);
@@ -169,15 +171,15 @@ class Ball extends Thing implements Moveable {
   void move() {
     /* ONE PERSON WRITE THIS  Alex */
      //random movement
-    if (x >= width && y >= height || x <= 0 && y <= 0){
+    if (x + axis1 / 2 >= width && y  + axis2 / 2 >= height || x - axis1 / 2 <= 0 && y - axis2 / 2 <= 0){
        xspeed *= -1; 
        yspeed *= -1;
     } else 
-    if (y >= height || y <= 0){
+    if (y  + axis2 / 2 >= height || y - axis2 / 2 <= 0){
        yspeed *= -1; 
      //  xspeed *= - 1;
     } else
-    if (x >= width || x <= 0){
+    if (x + axis1 / 2 >= width || x - axis1 / 2 <= 0){
       xspeed *= -1;
      // yspeed *= - 1;
     }
