@@ -1,5 +1,7 @@
 import java.util.*;
 import java.io.*;
+
+
 interface Displayable {
   void display();
 }
@@ -14,8 +16,8 @@ interface Collideable{
 
 abstract class Thing implements Displayable, Collideable {
   float x, y;//Position of the Thing
-  float xinc = random(-1, 1);
-  float yinc = random(-1, 1);
+  float xinc = random(-3, 3);
+  float yinc = random(-3, 3);
 
   Thing(float x, float y) {
     this.x = x;
@@ -69,19 +71,20 @@ public class LivingRock extends Rock implements Moveable {
   }
   
   void move() { //change x, y by small increments
+
   /*  a) Random Movement to test it out
     b) A simple path (may need some instance variables from here onward)
     c) A more complex path
     d) Randomly choose between several paths.  (you may need a new constructor for this)
     ONE PERSON WRITE THIS */
    ////////LINEAR WITH BOUNCES///////
-  /*x += xinc;
-    y += yinc;
-    */
+  x += xinc;
+  y += yinc;
+    
     
     ///////SPIRAL AND REWIND//////
-    x +=  10 * cos(xinc);
-    y +=  10 * sin(yinc);
+   // x +=  10 * cos(xinc);
+   // y +=  10 * sin(yinc);
     
       
    ////////BOUNCING///////// 
