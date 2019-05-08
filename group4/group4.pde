@@ -30,6 +30,8 @@ abstract class Thing implements Displayable, Collideable {
 class Rock extends Thing {
   PImage img1;
   //PImage img2;
+  int width = 200;
+  int height = 100;
   
   Rock(float x, float y) {
     super(x, y);
