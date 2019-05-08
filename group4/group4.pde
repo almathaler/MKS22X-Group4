@@ -120,7 +120,7 @@ class Ball extends Thing implements Moveable {
     }
     //boolean to decide
     if (random(2) <= .75) {
-     if (random(2) <= .5){
+     if (random(2) <= .65){
       complex = true;
      }else {
       picYes = true; 
