@@ -68,6 +68,7 @@ public class LivingRock extends Rock implements Moveable {
   void display() {
     super.display();
     fill(0);
+
     ellipse(x + 50, y+10, 10, 10);
     ellipse(x + 80, y+10, 10, 10);
   }
@@ -101,6 +102,9 @@ public class LivingRock extends Rock implements Moveable {
 
 
 class Ball extends Thing implements Moveable {
+
+  float xspeed = random(-1,1);
+  float yspeed = random(-1,1);
   PImage img;
   float[] colors = new float[3];
   boolean picYes = false;
@@ -137,9 +141,11 @@ class Ball extends Thing implements Moveable {
 
   void display() {
     /* ONE PERSON WRITE THIS  --Alma */
+
     //deciding between pic, simple and complex
     if (!picYes){
       fill(colors[0], colors[1], colors[2]);
+
       ellipse(x, y, axis1, axis2);
       if (complex){
        fill(colors[1], colors[2], colors[0]);
@@ -155,6 +161,7 @@ class Ball extends Thing implements Moveable {
     else{
       image(img, x, y, axis1, axis2);
     }
+
   }
   //if touching
   void crazy(){
@@ -162,24 +169,30 @@ class Ball extends Thing implements Moveable {
   }
 
   void move() {
-    /* ONE PERSON WRITE THIS */
-    if (x == 1000 && y == 800){
-       x -= 1; 
-       y -= 1;
+    /* ONE PERSON WRITE THIS  Alex */
+     //random movement
+    if (x + axis1 / 2 >= width && y  + axis2 / 2 >= height || x - axis1 / 2 <= 0 && y - axis2 / 2 <= 0){
+       xspeed *= -1; 
+       yspeed *= -1;
     } else 
-    if (y == 800){
-       y -= 1; 
-       x += random(3) - 1;
+    if (y  + axis2 / 2 >= height || y - axis2 / 2 <= 0){
+       yspeed *= -1; 
+     //  xspeed *= - 1;
     } else
-    if (x == 1000){
-      x -= 1;
-      y += random(3) - 1;
-    } else {
-    x += random(3) - 1;
-    y += random(3) - 1;
+    if (x + axis1 / 2 >= width || x - axis1 / 2 <= 0){
+      xspeed *= -1;
+     // yspeed *= - 1;
     }
+    x += xspeed;
+    y += yspeed;
+    }
+    
+    /* movement in straight lines but random*/
+    //if (direction == 0){
+      // x 
+    //}
   }
-}
+
 
 /*DO NOT EDIT THE REST OF THIS */
 
@@ -213,5 +226,6 @@ void draw() {
   for (Moveable thing : thingsToMove) {
     thing.move();
   }
+
   
 }
