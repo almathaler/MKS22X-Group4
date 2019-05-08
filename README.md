@@ -10,7 +10,7 @@ Kevin  - Rock Movement
 -Which pair worked on what code today. (Update over time as you do things)
 Hilary + Kevin: Rock changes and Living Rock changes
 Alex: Ball Changes
-
+Alma: absent
 
 
 -Any help/outside sources
