@@ -50,6 +50,10 @@ class Rock extends Thing {
     circle(x + 15, y - 15, 10);
     */
   }
+  
+  boolean isTouching(Thing other) {
+    return true;
+  }
 }
 
 public class LivingRock extends Rock implements Moveable {
