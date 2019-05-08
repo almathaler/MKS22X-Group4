@@ -1,5 +1,6 @@
 import java.util.*;
 import java.io.*;
+PImage ballImg;
 
 
 interface Displayable {
@@ -100,7 +101,6 @@ public class LivingRock extends Rock implements Moveable {
 
 
 class Ball extends Thing implements Moveable {
-
   float xspeed = random(-1,1);
   float yspeed = random(-1,1);
   PImage img;
@@ -108,14 +108,14 @@ class Ball extends Thing implements Moveable {
   boolean picYes = false;
   boolean complex = false;
   float axis1, axis2;
-  Ball(float x, float y) {
+  Ball(float x, float y, PImage img) {
     super(x, y);
+    //save the image
+    this.img = img;
     //random color
     for (int i = 0; i<3; i++){
      colors[i] = random(0, 256); 
     }
-    //image that might be used
-    img = loadImage("ballBlue.jpeg");
     //boolean to decide
     if (random(2) <= .75) {
      if (random(2) <= .5){
@@ -199,12 +199,13 @@ ArrayList<Moveable> thingsToMove;
 
 void setup() {
   size(1000, 800);
-
+  //balls image
+  ballImg = loadImage("ballBlue.jpeg");
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
   
   for (int i = 0; i < 10; i++) {
-    Ball b = new Ball(50+random(width-100), 50+random(height-100));
+    Ball b = new Ball(50+random(width-100), 50+random(height-100), ballImg);
     thingsToDisplay.add(b);
     thingsToMove.add(b);
     Rock r = new Rock(50+random(width-100), 50+random(height-100));
