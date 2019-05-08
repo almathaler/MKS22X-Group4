@@ -8,7 +8,11 @@ interface Moveable {
   void move();
 }
 
-abstract class Thing implements Displayable {
+interface Collideable{
+ boolean isTouching(Thing other); 
+}
+
+abstract class Thing implements Displayable, Collideable {
   float x, y;//Position of the Thing
   float xinc = random(-1, 1);
   float yinc = random(-1, 1);
@@ -18,6 +22,7 @@ abstract class Thing implements Displayable {
     this.y = y;
   }
   abstract void display();
+  abstract boolean isTouching(Thing other);
 }
 
 class Rock extends Thing {
@@ -32,6 +37,7 @@ class Rock extends Thing {
       img1 = loadImage("Rock2.png");
     }
   }
+  
 
   void display() {
     image(img1, x, y, 200, 100);
@@ -50,6 +56,14 @@ public class LivingRock extends Rock implements Moveable {
   LivingRock(float x, float y) {
     super(x, y);
   }
+  
+  void display() {
+    super.display();
+    fill(0);
+    circle(x - 15, y - 15, 10);
+    circle(x + 15, y - 15, 10);
+  }
+  
   void move() { //change x, y by small increments
   /*  a) Random Movement to test it out
     b) A simple path (may need some instance variables from here onward)
@@ -81,45 +95,67 @@ class Ball extends Thing implements Moveable {
 
   float xspeed = random(-1,1);
   float yspeed = random(-1,1);
-  int red = (int)random(256);
-  int green = (int)random(256);
-  int blue = (int)random(256);
-  float axis1 = random(10, 51);
-  float axis2 = random(10, 51);
-  
+  PImage img;
+  float[] colors = new float[3];
+  boolean picYes = false;
+  boolean complex = false;
+  float axis1, axis2;
   Ball(float x, float y) {
-
     super(x, y);
+    //random color
+    for (int i = 0; i<3; i++){
+     colors[i] = random(0, 256); 
+    }
+    //image that might be used
+    img = loadImage("ballBlue.jpeg");
+    //boolean to decide
+    if (random(2) <= .75) {
+     if (random(2) <= .5){
+      complex = true;
+     }else {
+      picYes = true; 
+     }
+    }
+    //making sizes
+    axis1 = random(30, 55);
+    axis2 = random(30, 55);
+  }
+  
+  boolean isTouching(Thing other){
+   if (other.x <= (this.x+20) && other.x >= (this.x-20) 
+       && other.y <= (this.y+20) && other.y >= (this.y-20)){
+        return true; 
+   }
+   return false;
   }
 
   void display() {
     /* ONE PERSON WRITE THIS  --Alma */
 
-    /*
-    float r = random(0, 255);
-    float g = random(0, 255);
-    float b = random(0, 255);
-    */
-   
-    fill(red, green, blue);
-    ellipse(x, y, axis1, axis2);
-    /*
-=======
-    float r = random(0, 255);
-    float g = random(0, 255);
-    float b = random(0, 255);
-    float axis1 = random(40, 51);
-    float axis2 = random(40, 51);
-    if (random(2) >= .5){
-      fill(r, g, b);
+    //deciding between pic, simple and complex
+    if (!picYes){
+      fill(colors[0], colors[1], colors[2]);
+
       ellipse(x, y, axis1, axis2);
+      if (complex){
+       fill(colors[1], colors[2], colors[0]);
+       ellipse(x, y, axis1*.75, axis2*.75);
+       fill(colors[2], colors[0], colors[1]);
+       ellipse(x, y, axis1/2, axis2/2);
+       rectMode(CENTER);
+       fill(colors[0], colors[2], colors[1]);
+       rect(x, y, axis1/3, axis2/3);
+       rectMode(CORNER);
+      }
     }
     else{
-      img = loadImage("ballBlue.jpeg");
       image(img, x, y, axis1, axis2);
     }
->>>>>>> 682a5bd1fcc363752f815a81edf146be4ab58bbd
-*/
+
+  }
+  //if touching
+  void crazy(){
+    
   }
 
   void move() {
@@ -158,6 +194,7 @@ void setup() {
 
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
+  
   for (int i = 0; i < 10; i++) {
     Ball b = new Ball(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(b);
@@ -173,11 +210,12 @@ void setup() {
 }
 void draw() {
   background(255);
-
   for (Displayable thing : thingsToDisplay) {
     thing.display();
-  }
+  } //this might be bad practice to change display of ball when processing is doing rock
   for (Moveable thing : thingsToMove) {
     thing.move();
   }
+
+  
 }
