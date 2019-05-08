@@ -8,7 +8,11 @@ interface Moveable {
   void move();
 }
 
-abstract class Thing implements Displayable {
+interface Collideable{
+ boolean isTouching(Thing other); 
+}
+
+abstract class Thing implements Displayable, Collideable {
   float x, y;//Position of the Thing
   float xinc = random(-1, 1);
   float yinc = random(-1, 1);
@@ -18,6 +22,7 @@ abstract class Thing implements Displayable {
     this.y = y;
   }
   abstract void display();
+  abstract boolean isTouching(Thing other);
 }
 
 class Rock extends Thing {
@@ -32,6 +37,7 @@ class Rock extends Thing {
       img1 = loadImage("Rock2.png");
     }
   }
+  
 
   void display() {
     image(img1, x, y, 200, 100);
@@ -111,6 +117,14 @@ class Ball extends Thing implements Moveable {
     axis1 = random(30, 55);
     axis2 = random(30, 55);
   }
+  
+  boolean isTouching(Thing other){
+   if (other.x <= (this.x+20) && other.x >= (this.x-20) 
+       && other.y <= (this.y+20) && other.y >= (this.y-20)){
+        return true; 
+   }
+   return false;
+  }
 
   void display() {
     /* ONE PERSON WRITE THIS  --Alma */
@@ -132,6 +146,10 @@ class Ball extends Thing implements Moveable {
     else{
       image(img, x, y, axis1, axis2);
     }
+  }
+  //if touching
+  void crazy(){
+    
   }
 
   void move() {
@@ -164,6 +182,7 @@ void setup() {
 
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
+  
   for (int i = 0; i < 10; i++) {
     Ball b = new Ball(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(b);
@@ -179,11 +198,11 @@ void setup() {
 }
 void draw() {
   background(255);
-
   for (Displayable thing : thingsToDisplay) {
     thing.display();
-  }
+  } //this might be bad practice to change display of ball when processing is doing rock
   for (Moveable thing : thingsToMove) {
     thing.move();
   }
+  
 }
