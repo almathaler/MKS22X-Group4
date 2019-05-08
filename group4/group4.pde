@@ -132,7 +132,7 @@ class Ball extends Thing implements Moveable {
     }
     //boolean to decide
     if (random(2) <= .75) {
-     if (random(2) <= .65){
+     if (random(2) <= .75){
       complex = true;
      }else {
       picYes = true; 
@@ -156,22 +156,29 @@ class Ball extends Thing implements Moveable {
 
     //deciding between pic, simple and complex
     if (!picYes){
+      //spikes on the ball
+      fill(colors[0], colors[2], colors[1]);
+      triangle((x+axis1/2), y, (x-axis1/2), y, x, (y+(axis2/2) + (axis2/6))); //up
+      triangle((x+axis1/2), y, (x-axis1/2), y, x, (y-(axis2/2) - (axis2/6))); //down
+      triangle(x, (y+axis2/2), x, (y-axis2/2), (x+(axis1/2) + (axis1/6)), y); //left
+      triangle(x, (y+axis2/2), x, (y-axis2/2), (x-(axis1/2) - (axis1/6)), y); //right
+      //the ball
       fill(colors[0], colors[1], colors[2]);
-
       ellipse(x, y, axis1, axis2);
       if (complex){
        fill(colors[1], colors[2], colors[0]);
-       ellipse(x, y, axis1*.75, axis2*.75);
+       ellipse(x, y, axis1*.75, axis2*.75); //first inner circle
        fill(colors[2], colors[0], colors[1]);
-       ellipse(x, y, axis1/2, axis2/2);
+       ellipse(x, y, axis1/2, axis2/2); //inner most circle
        rectMode(CENTER);
        fill(colors[0], colors[2], colors[1]);
-       rect(x, y, axis1/3, axis2/3);
+       rect(x, y, axis1/3, axis2/3); //a rectangle
        rectMode(CORNER);
+       //triangle outside
       }
     }
     else{
-      image(img, x, y, axis1, axis2);
+      image(img, x, y, 50, 50);
     }
 
   }
@@ -214,7 +221,7 @@ ArrayList<Moveable> thingsToMove;
 void setup() {
   size(1000, 800);
   //balls image
-  ballImg = loadImage("ballBlue.jpeg");
+  ballImg = loadImage("basketball.png");
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
   
