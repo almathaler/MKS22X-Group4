@@ -66,8 +66,8 @@ public class LivingRock extends Rock implements Moveable {
   void display() {
     super.display();
     fill(0);
-    circle(x - 15, y - 15, 10);
-    circle(x + 15, y - 15, 10);
+    circle(x + 50, y+10, 10);
+    circle(x + 80, y+10, 10);
   }
   
   void move() { //change x, y by small increments
