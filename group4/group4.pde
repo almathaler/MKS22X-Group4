@@ -1,5 +1,6 @@
 import java.util.*;
 import java.io.*;
+PImage ballImg;
 
 
 interface Displayable {
@@ -34,6 +35,8 @@ abstract class Thing implements Displayable, Collideable {
 class Rock extends Thing {
   PImage img1;
   //PImage img2;
+  int width = 200;
+  int height = 100;
   
   Rock(float x, float y) {
     super(x, y);
@@ -76,8 +79,9 @@ public class LivingRock extends Rock implements Moveable {
   void display() {
     super.display();
     fill(0);
-    circle(x + 50, y+10, 10);
-    circle(x + 80, y+10, 10);
+
+    ellipse(x + 50, y+10, 10, 10);
+    ellipse(x + 80, y+10, 10, 10);
   }
   
   void move() { //change x, y by small increments
@@ -111,22 +115,24 @@ public class LivingRock extends Rock implements Moveable {
 
 
 class Ball extends Thing implements Moveable {
+  float xspeed = random(-1,1);
+  float yspeed = random(-1,1);
   PImage img;
   float[] colors = new float[3];
   boolean picYes = false;
   boolean complex = false;
   float axis1, axis2;
-  Ball(float x, float y) {
+  Ball(float x, float y, PImage img) {
     super(x, y);
+    //save the image
+    this.img = img;
     //random color
     for (int i = 0; i<3; i++){
      colors[i] = random(0, 256); 
     }
-    //image that might be used
-    img = loadImage("ballBlue.jpeg");
     //boolean to decide
     if (random(2) <= .75) {
-     if (random(2) <= .5){
+     if (random(2) <= .65){
       complex = true;
      }else {
       picYes = true; 
@@ -147,9 +153,11 @@ class Ball extends Thing implements Moveable {
 
   void display() {
     /* ONE PERSON WRITE THIS  --Alma */
+
     //deciding between pic, simple and complex
     if (!picYes){
       fill(colors[0], colors[1], colors[2]);
+
       ellipse(x, y, axis1, axis2);
       if (complex){
        fill(colors[1], colors[2], colors[0]);
@@ -165,6 +173,7 @@ class Ball extends Thing implements Moveable {
     else{
       image(img, x, y, axis1, axis2);
     }
+
   }
   //if touching
   void crazy(){
@@ -172,24 +181,30 @@ class Ball extends Thing implements Moveable {
   }
 
   void move() {
-    /* ONE PERSON WRITE THIS */
-    if (x == 1000 && y == 800){
-       x -= 1; 
-       y -= 1;
+    /* ONE PERSON WRITE THIS  Alex */
+     //random movement
+    if (x + axis1 / 2 >= width && y  + axis2 / 2 >= height || x - axis1 / 2 <= 0 && y - axis2 / 2 <= 0){
+       xspeed *= -1; 
+       yspeed *= -1;
     } else 
-    if (y == 800){
-       y -= 1; 
-       x += random(3) - 1;
+    if (y  + axis2 / 2 >= height || y - axis2 / 2 <= 0){
+       yspeed *= -1; 
+     //  xspeed *= - 1;
     } else
-    if (x == 1000){
-      x -= 1;
-      y += random(3) - 1;
-    } else {
-    x += random(3) - 1;
-    y += random(3) - 1;
+    if (x + axis1 / 2 >= width || x - axis1 / 2 <= 0){
+      xspeed *= -1;
+     // yspeed *= - 1;
     }
+    x += xspeed;
+    y += yspeed;
+    }
+    
+    /* movement in straight lines but random*/
+    //if (direction == 0){
+      // x 
+    //}
   }
-}
+
 
 /*DO NOT EDIT THE REST OF THIS */
 
@@ -198,12 +213,13 @@ ArrayList<Moveable> thingsToMove;
 
 void setup() {
   size(1000, 800);
-
+  //balls image
+  ballImg = loadImage("ballBlue.jpeg");
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
   
   for (int i = 0; i < 10; i++) {
-    Ball b = new Ball(50+random(width-100), 50+random(height-100));
+    Ball b = new Ball(50+random(width-100), 50+random(height-100), ballImg);
     thingsToDisplay.add(b);
     thingsToMove.add(b);
     Rock r = new Rock(50+random(width-100), 50+random(height-100));
@@ -223,5 +239,6 @@ void draw() {
   for (Moveable thing : thingsToMove) {
     thing.move();
   }
+
   
 }
