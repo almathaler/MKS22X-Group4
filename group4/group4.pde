@@ -28,7 +28,11 @@ abstract class Thing implements Displayable, Collideable {
     this.y = y;
   }
   abstract void display();
-  abstract boolean isTouching(Thing other);
+  //this should be false, it's modified in rock and livign rock but for balls, they should never be touching something
+  //like how in the example code on the website, only when a rock is touching a ball is the ball affected
+  boolean isTouching(Thing other){
+    return false;
+  }
 }
 
 class Rock extends Thing {
@@ -118,6 +122,7 @@ class Ball extends Thing implements Moveable {
   float yspeed = random(-1,1);
   float[] colors = new float[3];
   boolean complex = false;
+  boolean crazy = false;
   float axis1, axis2;
   Ball(float x, float y) {
     super(x, y);
@@ -133,11 +138,12 @@ class Ball extends Thing implements Moveable {
     axis1 = random(30, 55);
     axis2 = random(30, 55);
   }
-  //
-  boolean isTouching(Thing other){
-   return true;
-   //the different classes will have different sensitivities
+  //if istouching, set crazy true
+  void setCrazy(boolean b){
+   crazy = b; 
   }
+  //
+  //remember isTouching is only for rocks. for balls it's always false
 
   void display() {}
   //if touching
@@ -159,13 +165,7 @@ class Ball extends Thing implements Moveable {
    }
    //
    //
-   boolean isTouching(Thing other){
-   if (other.x <= (this.x+20) && other.x >= (this.x-20) 
-       && other.y <= (this.y+20) && other.y >= (this.y-20)){
-        return true; 
-   }
-   return false;
-  }
+   //isTouching only relevant for rocks
   //
   //
    void crazy(){
@@ -243,9 +243,8 @@ class Ball extends Thing implements Moveable {
    }
    //
    //
-   boolean isTouching(Thing other){
-    return true; 
-   }
+   
+   //isTouching only relevant for rocks
    void display(){
     if (picYes){
       image(img, x, y, 50, 50);
@@ -281,13 +280,14 @@ class Ball extends Thing implements Moveable {
 
 ArrayList<Displayable> thingsToDisplay;
 ArrayList<Moveable> thingsToMove;
-
+ArrayList<Collideable> listOfCollideables;
 void setup() {
   size(1000, 800);
   //balls image
   ballImg = loadImage("basketball.png");
   thingsToDisplay = new ArrayList<Displayable>();
   thingsToMove = new ArrayList<Moveable>();
+  listOfCollideables = new ArrayList<Collideable>();
   
   for (int i = 0; i < 10; i++) {
     Ball b = new Ball1(50+random(width-100), 50+random(height-100));
@@ -298,11 +298,13 @@ void setup() {
     thingsToMove.add(b2);
     Rock r = new Rock(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(r);
+    listOfCollideables.add(r);
   }
   for (int i = 0; i < 3; i++) {
     LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(m);
     thingsToMove.add(m);
+    listOfCollideables.add(m);
   }
 }
 void draw() {
