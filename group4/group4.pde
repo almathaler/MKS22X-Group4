@@ -2,7 +2,6 @@ import java.util.*;
 import java.io.*;
 PImage ballImg;
 
-
 interface Displayable {
   void display();
 }
@@ -117,45 +116,66 @@ public class LivingRock extends Rock implements Moveable {
 class Ball extends Thing implements Moveable {
   float xspeed = random(-1,1);
   float yspeed = random(-1,1);
-  PImage img;
   float[] colors = new float[3];
-  boolean picYes = false;
   boolean complex = false;
   float axis1, axis2;
-  Ball(float x, float y, PImage img) {
+  Ball(float x, float y) {
     super(x, y);
-    //save the image
-    this.img = img;
     //random color
     for (int i = 0; i<3; i++){
      colors[i] = random(0, 256); 
     }
     //boolean to decide
-    if (random(2) <= .75) {
-     if (random(2) <= .75){
-      complex = true;
-     }else {
-      picYes = true; 
-     }
+    if (random(2) <= 1.5) {
+     complex = true;
     }
     //making sizes
     axis1 = random(30, 55);
     axis2 = random(30, 55);
   }
-  
+  //
   boolean isTouching(Thing other){
+   return true;
+   //the different classes will have different sensitivities
+  }
+
+  void display() {}
+  //if touching
+  void crazy(){}
+
+  void move() {}
+    
+    /* movement in straight lines but random*/
+    //if (direction == 0){
+      // x 
+    //}
+  }
+ // 
+ // 
+ //this will be j like original ball
+ class Ball1 extends Ball{
+   Ball1(float x, float y){
+    super(x, y); 
+   }
+   //
+   //
+   boolean isTouching(Thing other){
    if (other.x <= (this.x+20) && other.x >= (this.x-20) 
        && other.y <= (this.y+20) && other.y >= (this.y-20)){
         return true; 
    }
    return false;
   }
-
-  void display() {
+  //
+  //
+   void crazy(){
+     //will fill later
+   }
+  //
+  //
+  //NO IMAGE FOR BALL1
+   void display() {
     /* ONE PERSON WRITE THIS  --Alma */
-    
-    //deciding between pic, simple and complex
-    if (!picYes){
       //spikes on the ball
       fill(colors[0], colors[2], colors[1]);
       triangle((x+axis1/2), y, (x-axis1/2), y, x, (y+(axis2/2) + (axis2/6))); //up
@@ -183,17 +203,9 @@ class Ball extends Thing implements Moveable {
        rectMode(CORNER);
        //triangle outside
       }
-    }
-    else{
-      image(img, x, y, 50, 50);
-    }
-
   }
-  //if touching
-  void crazy(){
-    
-  }
-
+  //
+  //
   void move() {
     /* ONE PERSON WRITE THIS  Alex */
      //random movement
@@ -211,13 +223,58 @@ class Ball extends Thing implements Moveable {
     }
     x += xspeed;
     y += yspeed;
-    }
-    
-    /* movement in straight lines but random*/
-    //if (direction == 0){
-      // x 
-    //}
   }
+ }
+ 
+ class Ball2 extends Ball{
+   PImage img;
+   boolean picYes = true;
+   Ball2(float x, float y, PImage img){
+     super(x, y); 
+     this.img = img;
+     if (random(2)  <= 1){
+      picYes = false; 
+     }
+   }
+   //
+   //
+   void crazy(){
+   
+   }
+   //
+   //
+   boolean isTouching(Thing other){
+    return true; 
+   }
+   void display(){
+    if (picYes){
+      image(img, x, y, 50, 50);
+    }else{
+     //make a new shape 
+     fill(colors[0] + 25, colors[1] + 25, colors[2] + 25); //so they're diff shades from ball1
+     ellipse(x, y, axis1, axis2);
+    }
+   }
+   void move() {
+    /* ONE PERSON WRITE THIS  Alex */
+     //random movement
+    if (x + axis1 / 2 >= width && y  + axis2 / 2 >= height || x - axis1 / 2 <= 0 && y - axis2 / 2 <= 0){
+       xspeed *= -1; 
+       yspeed *= -1;
+    } else 
+    if (y  + axis2 / 2 >= height || y - axis2 / 2 <= 0){
+       yspeed *= -1; 
+     //  xspeed *= - 1;
+    } else
+    if (x + axis1 / 2 >= width || x - axis1 / 2 <= 0){
+      xspeed *= -1;
+     // yspeed *= - 1;
+    }
+    x += xspeed;
+    y += yspeed;
+  }
+   
+ }
 
 
 /*DO NOT EDIT THE REST OF THIS */
@@ -233,9 +290,12 @@ void setup() {
   thingsToMove = new ArrayList<Moveable>();
   
   for (int i = 0; i < 10; i++) {
-    Ball b = new Ball(50+random(width-100), 50+random(height-100), ballImg);
+    Ball b = new Ball1(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(b);
     thingsToMove.add(b);
+    Ball b2 = new Ball2(50+random(width-100), 50+random(height-100), ballImg);
+    thingsToDisplay.add(b2);
+    thingsToMove.add(b2);
     Rock r = new Rock(50+random(width-100), 50+random(height-100));
     thingsToDisplay.add(r);
   }
