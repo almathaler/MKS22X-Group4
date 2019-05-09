@@ -176,6 +176,13 @@ class Ball extends Thing implements Moveable {
        rectMode(CORNER);
        //triangle outside
       }
+      //make the colors blend
+      for (int i = 0; i<3; i++){
+       colors[i] = colors[i] + .1;
+       if (colors[i] > 255){
+         colors[i] = 0;
+       }
+      }
     }
     else{
       image(img, x, y, 50, 50);
