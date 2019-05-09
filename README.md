@@ -17,5 +17,7 @@ Hilary:
 Kevin:
 Alma: moved image loading to setup, adn fixed collideable merge errors and also colors
 Alex: fixed many merge errors, worked on bounce
-
+5/9
+Alma: made ball1 and ball2, the difference is that ball1 has the spikes and ball2 is
+either very plane ellipse or basketball
 -Any help/outside sources
