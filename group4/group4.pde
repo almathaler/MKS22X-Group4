@@ -153,7 +153,7 @@ class Ball extends Thing implements Moveable {
 
   void display() {
     /* ONE PERSON WRITE THIS  --Alma */
-
+    
     //deciding between pic, simple and complex
     if (!picYes){
       //spikes on the ball
@@ -166,6 +166,13 @@ class Ball extends Thing implements Moveable {
       fill(colors[0], colors[1], colors[2]);
       ellipse(x, y, axis1, axis2);
       if (complex){
+       //make the colors blend
+      for (int i = 0; i<3; i++){
+        colors[i] = colors[i] + 5;
+        if (colors[i] > 255){
+         colors[i] = 0;
+         }
+       }
        fill(colors[1], colors[2], colors[0]);
        ellipse(x, y, axis1*.75, axis2*.75); //first inner circle
        fill(colors[2], colors[0], colors[1]);
@@ -175,13 +182,6 @@ class Ball extends Thing implements Moveable {
        rect(x, y, axis1/3, axis2/3); //a rectangle
        rectMode(CORNER);
        //triangle outside
-      }
-      //make the colors blend
-      for (int i = 0; i<3; i++){
-       colors[i] = colors[i] + .1;
-       if (colors[i] > 255){
-         colors[i] = 0;
-       }
       }
     }
     else{
