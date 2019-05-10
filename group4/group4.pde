@@ -30,8 +30,8 @@ abstract class Thing implements Displayable, Collideable {
 class Rock extends Thing {
   PImage img1;
   //PImage img2;
-  int width = 200;
-  int height = 100;
+  int axis1 = 200; //width
+  int axis2 = 100; //height
   
   Rock(float x, float y) {
     super(x, y);
@@ -56,7 +56,12 @@ class Rock extends Thing {
   }
   
   boolean isTouching(Thing other) {
-    return true;
+    /*
+    if (abs(x - other.x) < axis1 / 2 + other.axis1 / 2 && abs(y - other.y) < axis2 / 2 + other.axis2 / 2) {
+      return true;
+    }
+    */
+    return false;
   }
 }
 
