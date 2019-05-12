@@ -261,7 +261,7 @@ class Ball extends Thing implements Moveable {
  
  class Ball2 extends Ball{
    PImage img;
-   boolean picYes = true;
+   //boolean picYes = true; --> commented this out bc i want all Ball2 to be image
    //g and n represent max bounce height for each ball
    float g = random(height);
    float n = random(width);
@@ -270,12 +270,12 @@ class Ball extends Thing implements Moveable {
      this.img = img;
      xspeed = .7 * y / 100;
      yspeed = 2;
-     if (random(2)  <= 1){
-      picYes = false; 
-     } else {
-       axis1 = 50;
-       axis2 = 50;
-     }
+     //if (random(2)  <= 1){
+     // picYes = false; 
+     //} else {
+     axis1 = 50;
+     axis2 = 50;
+     //}
    }
    int counter = 0;
    float oldx = 2;
@@ -292,13 +292,14 @@ class Ball extends Thing implements Moveable {
    
    //isTouching only relevant for rocks
    void display(){
-    if (picYes){
-      image(img, x, y, 50, 50);
-    }else{
+    //if (picYes){
+      fill(colors[0] + 25, colors[1] + 25, colors[2] + 25); //so they're diff shades from ball1
+      ellipse(x, y, 50, 50);
+      image(img, x-25, y-25, 50, 50);
+    //}else{
      //make a new shape 
-     fill(colors[0] + 25, colors[1] + 25, colors[2] + 25); //so they're diff shades from ball1
-     ellipse(x, y, axis1, axis2);
-    }
+     
+    //}
    }
    
    void move() {
