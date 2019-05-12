@@ -74,6 +74,8 @@ class Rock extends Thing {
 
 public class LivingRock extends Rock implements Moveable {
   PImage eyes;
+  PImage surprisedEyes;
+  boolean surprised;
   
   LivingRock(float x, float y) {
     super(x, y);
@@ -83,6 +85,8 @@ public class LivingRock extends Rock implements Moveable {
     ogX = random(800);
     ogY = random(1000);
     eyes = loadImage("normalEyes.png");
+    surprisedEyes = loadImage("eyes.png");
+    surprised = false;
   }
   
   void display() {
@@ -93,6 +97,10 @@ public class LivingRock extends Rock implements Moveable {
     ellipse(x + 50, y+10, 10, 10);
     ellipse(x + 80, y+10, 10, 10);
     */
+  }
+  
+  void surprised() {
+    surprised = true;
   }
   
   void move() { //change x, y by small increments
