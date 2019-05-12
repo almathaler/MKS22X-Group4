@@ -125,8 +125,8 @@ public class LivingRock extends Rock implements Moveable {
 
 
 class Ball extends Thing implements Moveable {
-  float xspeed = random(-1,1);
-  float yspeed = random(-1,1);
+  float xspeed = random(-5,5);
+  float yspeed = random(-5,5);
   float[] colors = new float[3];
   boolean complex = false;
   boolean crazy = false;
@@ -170,7 +170,13 @@ class Ball extends Thing implements Moveable {
  class Ball1 extends Ball{
    Ball1(float x, float y){
     super(x, y); 
+    yspeed = random(.5);
+    xspeed = 5 * (sin(y / 5) + cos(y / 5));
    }
+   boolean checker = true;
+   int counter = 0;
+   float oldx = .5;
+   float oldy = 5 * sin(x / 5);
    //
    //
    //isTouching only relevant for rocks
@@ -218,20 +224,39 @@ class Ball extends Thing implements Moveable {
     /* ONE PERSON WRITE THIS  Alex */
      //random movement
     if (x + axis1 / 2 >= width - 20 && y  + axis2 / 2 >= height - 10 || x - axis1 / 2 <= 20 && y - axis2 / 2 <= 10){
-       xspeed *= -1; 
-       yspeed *= -1;
+        //x += 10 * (sin(y / 5) + cos(y / 5));
+        xspeed *= -1;
+       yspeed *= - (1);
+       counter++;
     } else 
     if (y  + axis2 / 2 >= height - 10 || y - axis2 / 2 <= 10){
-       yspeed *= -1; 
+       yspeed *= -(1); 
      //  xspeed *= - 1;
     } else
     if (x + axis1 / 2 >= width - 20 || x - axis1 / 2 <= 20){
       xspeed *= -1;
-     // yspeed *= - 1;
+      counter++;
+     //yspeed *= - 1;
+     //x += 10 * (sin(y / 5) + cos(y / 5));
+    } 
+    if (counter >= 2){
+      float holderx = xspeed;
+      float holdery = yspeed;
+      xspeed = oldx;
+      yspeed = oldy;
+      oldx = holderx;
+      oldy = holdery;
+      counter = 0;
+      checker = !checker;
     }
-    x += xspeed + (1/2) * acceleration * System.currentTimeMillis() / 1000;
-    y += yspeed + (1/2) * acceleration * System.currentTimeMillis() / 1000;
-  }
+    if (checker == true){
+    y += yspeed;
+    x += xspeed;
+    } else {
+      x += xspeed;
+      y += yspeed;
+    }
+}
  }
  
  class Ball2 extends Ball{
@@ -243,10 +268,20 @@ class Ball extends Thing implements Moveable {
    Ball2(float x, float y, PImage img){
      super(x, y); 
      this.img = img;
+     xspeed = .7 * y / 100;
+     yspeed = 2;
      if (random(2)  <= 1){
       picYes = false; 
+     } else {
+       axis1 = 50;
+       axis2 = 50;
      }
    }
+   int counter = 0;
+   float oldx = 2;
+   float oldy = .7 * x / 100;
+   boolean checker = true;
+   
    //
    //
    void crazy(){
@@ -265,26 +300,44 @@ class Ball extends Thing implements Moveable {
      ellipse(x, y, axis1, axis2);
     }
    }
+   
    void move() {
     /* ONE PERSON WRITE THIS  Alex */
      //random movement with boundaries of height of each bounce
      
-   
     if (x + axis1 / 2 >= width && y  + axis2 / 2 >= height || x - axis1 / 2 <= 0 && y - axis2 / 2 <= 0){
-       xspeed *= - random(2);
-        yspeed *= - random(2);
+       xspeed *= - 1;
+        yspeed *= - 1;
+        counter++;
     } else 
     if (y  + axis2 / 2 >= height || y - axis2 / 2 <= 0){
       //xspeed *= - random(1);
-      yspeed *= - random(2);
+      yspeed *= - 1;
+      counter++;
     } else
     if (x + axis1 / 2 >= width || x - axis1 / 2 <= 0){
-     xspeed *= - random(2);
+     xspeed *= - 1;
+     counter++;
      // yspeed *= - random(1);
     }
+    if (counter >= 3){
+      float holderx = xspeed;
+      float holdery = yspeed;
+      xspeed = oldx;
+      yspeed = oldy;
+      oldx = holderx;
+      oldy = holdery;
+      counter = 0;
+      checker = !checker;
+    }
+    if (checker){
     x += xspeed;
     y += yspeed;
+    } else {
+      y += yspeed;
+      x += xspeed;
   }
+   }
    
  }
 
