@@ -82,12 +82,12 @@ public class LivingRock extends Rock implements Moveable {
     angle = random(360);
     ogX = random(800);
     ogY = random(1000);
-    eyes = loadImage("eyes.png");
+    eyes = loadImage("normalEyes.png");
   }
   
   void display() {
     super.display();
-    image(eyes, x + 80, y + 10, 50, 50);
+    image(eyes, x + 80, y + 10, 50, 25);
     /* Old eyes
     fill(0);
     ellipse(x + 50, y+10, 10, 10);
