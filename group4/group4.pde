@@ -310,11 +310,14 @@ class Ball extends Thing implements Moveable {
    void display(){
     //if (picYes){
       fill(colors[0] + 25, colors[1] + 25, colors[2] + 25); //so they're diff shades from ball1
+      if (crazy) {
+        fill(255, 0, 0);
+      }
       ellipse(x, y, 50, 50);
       image(img, x-25, y-25, 50, 50);
     //}else{
      //make a new shape 
-     
+       crazy = false;
     //}
    }
    
@@ -360,11 +363,12 @@ class Ball extends Thing implements Moveable {
 
 
 /*DO NOT EDIT THE REST OF THIS */
-
+//edited for collideable
 ArrayList<Rock> rocksToDisplay;
 ArrayList<Ball> ballsToDisplay;
 ArrayList<Moveable> thingsToMove;
 ArrayList<Collideable> listOfCollideables;
+
 void setup() {
   size(1000, 800);
   //balls image
