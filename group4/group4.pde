@@ -1,3 +1,4 @@
+
 import java.util.*;
 import java.io.*;
 PImage ballImg;
@@ -21,8 +22,10 @@ abstract class Thing implements Displayable, Collideable {
   float angle;
   float ogX;
   float ogY;
+  float rng;
   float axis1; //width
   float axis2; //height
+  
   
 
   Thing(float x, float y) {
@@ -46,9 +49,6 @@ abstract class Thing implements Displayable, Collideable {
 
 class Rock extends Thing {
   PImage img1;
-  //PImage img2;
-  //float axis1; //width
-  //float axis2; //height
   
   Rock(float x, float y) {
     super(x, y);
@@ -64,18 +64,13 @@ class Rock extends Thing {
 
   void display() {
     image(img1, x, y, 200, 100);
-    /*
-    fill(128, 128, 128); //Gray
-    ellipse(x, y, 100, 70);
-    fill(0);
-    //Smiley face
-    circle(x - 15, y - 15, 10);
-    circle(x + 15, y - 15, 10);
-    */
   }
 }
 
 public class LivingRock extends Rock implements Moveable {
+  PImage eyes;
+  PImage surprisedEyes;
+  
   LivingRock(float x, float y) {
     super(x, y);
     xinc = random(-3, 3);
@@ -83,7 +78,9 @@ public class LivingRock extends Rock implements Moveable {
     angle = random(360);
     ogX = random(800);
     ogY = random(1000);
-
+    rng = random(4);
+    eyes = loadImage("normalEyes.png");
+    surprisedEyes = loadImage("eyes.png");
   }
   
   void display() {
@@ -95,31 +92,66 @@ public class LivingRock extends Rock implements Moveable {
   }
   
   void move() { //change x, y by small increments
-  /*  a) Random Movement to test it out
-    b) A simple path (may need some instance variables from here onward)
-    c) A more complex path
-    d) Randomly choose between several paths.  (you may need a new constructor for this)
-    ONE PERSON WRITE THIS */
-   ////////LINEAR///////
-  /*x += xinc;
-  y += yinc;*/
-  
-   ///////ELLIPSE//////
-  /* angle += 0.05;
-   x = 60 * cos(angle) + ogX;
-   y = 80 * sin(angle) + ogY; */
+    if (rng > 3 && rng < 4){
+      far();
+    }
+    else if (rng > 2 && rng < 3){
+      star();
+    }
     
-   /////STAR/////
-   angle += 0.05;
-   x = 60* pow(cos(angle),3) + ogX;
-   y = 80* pow(sin(angle),3) + ogY;
-   ////////BOUNCING///////// 
+    else if (rng > 1 && rng  < 2){
+       circ();
+    }
+    
+    else{
+       x += xinc;
+       y += yinc;
+    }
+    
+////////BOUNCING///////// 
      if (x >= 1000 || x <= 0){
       xinc *= -1;
     }
     if (y >= 800 || y <= 0){
       yinc *= -1;
     }
+  }
+      
+  /*  a) Random Movement to test it out
+    b) A simple path (may need some instance variables from here onward)
+    c) A more complex path
+    d) Randomly choose between several paths.  (you may need a new constructor for this)
+    ONE PERSON WRITE THIS */
+   ////////LINEAR///////
+
+  
+   ///////ELLIPSE//////
+  /* angle += 0.05;
+   */
+    
+   /////STAR/////
+   
+
+  void star(){
+    angle += 0.05;
+   x = 300* pow(cos(angle),3) + ogX;
+   y = 300* pow(sin(angle),3) + ogY;
+   ogX += random(-1, 1);
+   ogY += random(-1, 1);
+  }
+  
+  void circ(){
+   angle += 0.05;
+   x = 300* cos(angle) + ogX;
+   y = 300* sin(angle) + ogY;
+   ogX += random(-1, 1);
+   ogY += random(-1, 1);
+  }
+  
+  void far(){
+    angle += 0.05;
+    x = 400 * sin(12/13 * angle) + ogX;
+    y = 300 * sin(angle) + ogY;
   }
 }
 
@@ -378,14 +410,12 @@ ArrayList<Rock> rocksToDisplay;
 ArrayList<Ball> ballsToDisplay;
 ArrayList<Moveable> thingsToMove;
 ArrayList<Collideable> listOfCollideables;
-ArrayList<LivingRock> livingRocks;
 
 void setup() {
   size(1000, 800);
   //balls image
   ballImg = loadImage("basketball.png");
   rocksToDisplay = new ArrayList<Rock>();
-  livingRocks = new ArrayList<LivingRock>();
   ballsToDisplay = new ArrayList<Ball>(); //made this seperation bc needs to be distinction between balls and other rocks 
   thingsToMove = new ArrayList<Moveable>();
   listOfCollideables = new ArrayList<Collideable>();
@@ -414,7 +444,6 @@ void setup() {
   for (int i = 0; i < 3; i++) {
     LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100));
     rocksToDisplay.add(m);
-    livingRocks.add(m);
     thingsToMove.add(m);
     listOfCollideables.add(m);
   }
@@ -426,19 +455,12 @@ void draw() {
   }
   for (Ball b : ballsToDisplay) {
      b.display();
-     for( Collideable c : listOfCollideables) {
-       if ( c.isTouching(b)){
+     for( Rock r : rocksToDisplay) {
+       if ( r.isTouching(b)){
         b.crazy();
        }
      }
   } 
-  for (LivingRock r: livingRocks) {
-    for (Ball b: ballsToDisplay) {
-      if (r.isTouching(b)) {
-        r.surprised();
-      }
-    }
-  }
   for (Moveable thing : thingsToMove) {
     thing.move();
   }
