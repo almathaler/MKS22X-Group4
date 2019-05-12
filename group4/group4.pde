@@ -147,6 +147,7 @@ public class LivingRock extends Rock implements Moveable {
   }
   
   void circ(){
+   angle += 0.05;
    x = 300* cos(angle) + ogX;
    y = 300* sin(angle) + ogY;
    ogX += random(-1, 1);
