@@ -93,8 +93,8 @@ public class LivingRock extends Rock implements Moveable {
     }
   }
   
-  void surprised() {
-    surprised = true;
+  void surprised(boolean touching) {
+    surprised = touching;
   }
   
   void move() { //change x, y by small increments
@@ -472,9 +472,7 @@ void draw() {
   } 
   for (LivingRock r : livingRocks) {
     for (Ball b: ballsToDisplay) {
-      if (r.isTouching(b)) {
-        r.surprised();
-      }
+      r.surprised(r.isTouching(b));
     }
   }
   for (Moveable thing : thingsToMove) {
