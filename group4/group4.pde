@@ -35,7 +35,7 @@ abstract class Thing implements Displayable, Collideable {
   
   boolean isTouching(Thing other){
     
-    if (abs(x - other.x) < (axis1-20) / 2 + other.axis1 / 2 && abs(y - other.y) < (axis2-20) / 2 + other.axis2 / 2) {
+    if (abs(x - other.x) < axis1 / 2 + other.axis1 / 2 && abs(y - other.y) < axis2 / 2 + other.axis2 / 2) {
       return true;
     }
     
@@ -46,6 +46,9 @@ abstract class Thing implements Displayable, Collideable {
 
 class Rock extends Thing {
   PImage img1;
+  //PImage img2;
+  //float axis1; //width
+  //float axis2; //height
   
   Rock(float x, float y) {
     super(x, y);
@@ -73,10 +76,6 @@ class Rock extends Thing {
 }
 
 public class LivingRock extends Rock implements Moveable {
-  PImage eyes;
-  PImage surprisedEyes;
-  boolean surprised;
-  
   LivingRock(float x, float y) {
     super(x, y);
     xinc = random(-3, 3);
@@ -84,27 +83,15 @@ public class LivingRock extends Rock implements Moveable {
     angle = random(360);
     ogX = random(800);
     ogY = random(1000);
-    eyes = loadImage("normalEyes.png");
-    surprisedEyes = loadImage("eyes.png");
-    surprised = false;
+
   }
   
   void display() {
     super.display();
-    if (surprised) {
-      image(surprisedEyes, x + 80, y + 10, 50, 25);
-    } else {
-      image(eyes, x + 80, y + 10, 50, 25);
-    }
-    /* Old eyes
     fill(0);
+
     ellipse(x + 50, y+10, 10, 10);
     ellipse(x + 80, y+10, 10, 10);
-    */
-  }
-  
-  void surprised() {
-    surprised = true;
   }
   
   void move() { //change x, y by small increments
@@ -200,23 +187,21 @@ class Ball extends Thing implements Moveable {
    void display() { //will set crazy false at the end so that if ball is no longer touching, won't be stuck in infinite loop
     /* ONE PERSON WRITE THIS  --Alma */
       //spikes on the ball
-      float r, g, b;
-      if (crazy) {
-        r = 255;
-        g = 255;
-        b = 255;
+      if (crazy){
+        fill(255, 102, 102);
       }else{
-        r = colors[0];
-        g = colors[1];
-        b = colors[2];
+        fill(colors[0], colors[2], colors[1]);
       }
-      fill(r, b, g);
       triangle((x+axis1/2), y, (x-axis1/2), y, x, (y+(axis2/2) + (axis2/6))); //up
       triangle((x+axis1/2), y, (x-axis1/2), y, x, (y-(axis2/2) - (axis2/6))); //down
       triangle(x, (y+axis2/2), x, (y-axis2/2), (x+(axis1/2) + (axis1/6)), y); //left
       triangle(x, (y+axis2/2), x, (y-axis2/2), (x-(axis1/2) - (axis1/6)), y); //right
       //the ball
-      fill(r, g, b);
+      if (crazy){
+        fill(255, 0, 0);
+      }else{
+        fill(colors[0], colors[1], colors[2]);
+      }
       ellipse(x, y, axis1, axis2);
       //if (complex){
        //make the colors blend
@@ -227,22 +212,25 @@ class Ball extends Thing implements Moveable {
          }
        }
        //not sure how to make change to colors affect rgb only when not crazy so j rewrite the if statemetn
-       if (crazy) {
-        r = 255;
-        g = 255;
-        b = 255;
-      }else{
-        r = colors[0];
-        g = colors[1];
-        b = colors[2];
-      }
       //
-       fill(g, b, r);
+       if (crazy){
+        fill(255, 102, 102);
+      }else{
+        fill(colors[1], colors[2], colors[0]);
+      }
        ellipse(x, y, axis1*.75, axis2*.75); //first inner circle
-       fill(g, r, b);
+      if (crazy){
+        fill(255, 153, 153);
+      }else{
+        fill(colors[1], colors[0], colors[2]);
+      }
        ellipse(x, y, axis1/2, axis2/2); //inner most circle
        rectMode(CENTER);
-       fill(r, g, b);
+       if (crazy){
+        fill(255, 0, 0);
+      }else{
+        fill(colors[0], colors[1], colors[2]);
+      }
        rect(x, y, axis1/3, axis2/3); //a rectangle
        rectMode(CORNER);
        //triangle outside
@@ -322,12 +310,21 @@ class Ball extends Thing implements Moveable {
    //isTouching only relevant for rocks
    void display(){
     //if (picYes){
+      float ang = 3.14159 / 60; //will make 20 rotations per minute
       fill(colors[0] + 25, colors[1] + 25, colors[2] + 25); //so they're diff shades from ball1
       if (crazy) {
-        fill(255, 0, 0);
+        fill (255, 0, 0);
       }
-      ellipse(x, y, 50, 50);
-      image(img, x-25, y-25, 50, 50);
+      ellipse(x, y, axis1, axis2);
+      if (crazy) {
+       //rotate(ang * (second()*20));
+       rectMode(CENTER);
+       fill(255, 255, 0);
+       rect(x, y, axis1/10, axis2);
+       rect(x, y, axis1, axis2/10); 
+       //rotate(-1 * ang * (second()*20)); //undo the rotation for future drawings
+      }
+      image(img, x-25, y-25, axis1, axis2);
     //}else{
      //make a new shape 
        crazy = false;
@@ -392,12 +389,22 @@ void setup() {
   listOfCollideables = new ArrayList<Collideable>();
   
   for (int i = 0; i < 10; i++) {
-    Ball b = new Ball1(50+random(width-100), 50+random(height-100));
-    ballsToDisplay.add(b);
-    thingsToMove.add(b);
-    Ball b2 = new Ball2(50+random(width-100), 50+random(height-100), ballImg);
-    ballsToDisplay.add(b2);
-    thingsToMove.add(b2);
+    if (random(3) >= 2){
+      Ball b = new Ball1(50+random(width-100), 50+random(height-100));
+      ballsToDisplay.add(b);
+      thingsToMove.add(b);
+    }else if (random(2) >= 1){
+      Ball b2 = new Ball2(50+random(width-100), 50+random(height-100), ballImg);
+      ballsToDisplay.add(b2);
+      thingsToMove.add(b2);
+    }else{
+      Ball b2 = new Ball2(50+random(width-100), 50+random(height-100), ballImg);
+      ballsToDisplay.add(b2);
+      thingsToMove.add(b2);
+      Ball b = new Ball1(50+random(width-100), 50+random(height-100));
+      ballsToDisplay.add(b);
+      thingsToMove.add(b);
+    }
     Rock r = new Rock(50+random(width-100), 50+random(height-100));
     rocksToDisplay.add(r);
     listOfCollideables.add(r);
