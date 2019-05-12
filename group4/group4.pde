@@ -91,7 +91,11 @@ public class LivingRock extends Rock implements Moveable {
   
   void display() {
     super.display();
-    image(eyes, x + 80, y + 10, 50, 25);
+    if (surprised) {
+      image(surprisedEyes, x + 80, y + 10, 50, 25);
+    } else {
+      image(eyes, x + 80, y + 10, 50, 25);
+    }
     /* Old eyes
     fill(0);
     ellipse(x + 50, y+10, 10, 10);
