@@ -128,8 +128,8 @@ class Ball extends Thing implements Moveable {
   float xspeed = random(-5,5);
   float yspeed = random(-5,5);
   float[] colors = new float[3];
-  boolean complex = false;
-  boolean crazy = false;
+  //boolean complex = false; removed this because i want all the ball1s to be complex
+  boolean crazy = false; 
   int acceleration = 2;
   //float axis1, axis2;
   Ball(float x, float y) {
@@ -139,23 +139,22 @@ class Ball extends Thing implements Moveable {
      colors[i] = random(0, 256); 
     }
     //boolean to decide
-    if (random(2) <= 1.5) {
-     complex = true;
-    }
+    //if (random(2) <= 1.5) {
+    // complex = true;
+    //}
     //making sizes
     axis1 = random(30, 55);
     axis2 = random(30, 55);
   }
   //if istouching, set crazy true
-  void setCrazy(boolean b){
-   crazy = b; 
-  }
   //
   //remember isTouching is only for rocks. for balls it's always false
 
   void display() {}
   //if touching
-  void crazy(){}
+  void crazy(){
+    crazy = true;
+  }
 
   void move() {}
     
@@ -182,41 +181,61 @@ class Ball extends Thing implements Moveable {
    //isTouching only relevant for rocks
   //
   //
-   void crazy(){
-     //will fill later
-   }
   //
   //
   //NO IMAGE FOR BALL1
-   void display() {
+   void display() { //will set crazy false at the end so that if ball is no longer touching, won't be stuck in infinite loop
     /* ONE PERSON WRITE THIS  --Alma */
       //spikes on the ball
-      fill(colors[0], colors[2], colors[1]);
+      float r, g, b;
+      if (crazy) {
+        r = 255;
+        g = 0;
+        b = 0;
+      }else{
+        r = colors[0];
+        g = colors[1];
+        b = colors[2];
+      }
+      fill(r, b, g);
       triangle((x+axis1/2), y, (x-axis1/2), y, x, (y+(axis2/2) + (axis2/6))); //up
       triangle((x+axis1/2), y, (x-axis1/2), y, x, (y-(axis2/2) - (axis2/6))); //down
       triangle(x, (y+axis2/2), x, (y-axis2/2), (x+(axis1/2) + (axis1/6)), y); //left
       triangle(x, (y+axis2/2), x, (y-axis2/2), (x-(axis1/2) - (axis1/6)), y); //right
       //the ball
-      fill(colors[0], colors[1], colors[2]);
+      fill(r, g, b);
       ellipse(x, y, axis1, axis2);
-      if (complex){
+      //if (complex){
        //make the colors blend
       for (int i = 0; i<3; i++){
-        colors[i] = colors[i] + 5;
+        colors[i] = colors[i] + 2;
         if (colors[i] > 255){
          colors[i] = 0;
          }
        }
-       fill(colors[1], colors[2], colors[0]);
+       //not sure how to make change to colors affect rgb only when not crazy so j rewrite the if statemetn
+       if (crazy) {
+        r = 255;
+        g = 0;
+        b = 0;
+      }else{
+        r = colors[0];
+        g = colors[1];
+        b = colors[2];
+      }
+      //
+       fill(g, b, r);
        ellipse(x, y, axis1*.75, axis2*.75); //first inner circle
-       fill(colors[2], colors[0], colors[1]);
+       fill(g, r, b);
        ellipse(x, y, axis1/2, axis2/2); //inner most circle
        rectMode(CENTER);
-       fill(colors[0], colors[2], colors[1]);
+       fill(r, g, b);
        rect(x, y, axis1/3, axis2/3); //a rectangle
        rectMode(CORNER);
        //triangle outside
-      }
+      //}
+      crazy = false; //this way you don't need to check if no longer touching
+      //if they're still touching crazy will be set to true next frame
   }
   //
   //
@@ -284,9 +303,6 @@ class Ball extends Thing implements Moveable {
    
    //
    //
-   void crazy(){
-   
-   }
    //
    //
    
@@ -345,40 +361,50 @@ class Ball extends Thing implements Moveable {
 
 /*DO NOT EDIT THE REST OF THIS */
 
-ArrayList<Displayable> thingsToDisplay;
+ArrayList<Rock> rocksToDisplay;
+ArrayList<Ball> ballsToDisplay;
 ArrayList<Moveable> thingsToMove;
 ArrayList<Collideable> listOfCollideables;
 void setup() {
   size(1000, 800);
   //balls image
   ballImg = loadImage("basketball.png");
-  thingsToDisplay = new ArrayList<Displayable>();
+  rocksToDisplay = new ArrayList<Rock>();
+  ballsToDisplay = new ArrayList<Ball>(); //made this seperation bc needs to be distinction between balls and other rocks 
   thingsToMove = new ArrayList<Moveable>();
   listOfCollideables = new ArrayList<Collideable>();
   
   for (int i = 0; i < 10; i++) {
     Ball b = new Ball1(50+random(width-100), 50+random(height-100));
-    thingsToDisplay.add(b);
+    ballsToDisplay.add(b);
     thingsToMove.add(b);
     Ball b2 = new Ball2(50+random(width-100), 50+random(height-100), ballImg);
-    thingsToDisplay.add(b2);
+    ballsToDisplay.add(b2);
     thingsToMove.add(b2);
     Rock r = new Rock(50+random(width-100), 50+random(height-100));
-    thingsToDisplay.add(r);
+    rocksToDisplay.add(r);
     listOfCollideables.add(r);
   }
   for (int i = 0; i < 3; i++) {
     LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100));
-    thingsToDisplay.add(m);
+    rocksToDisplay.add(m);
     thingsToMove.add(m);
     listOfCollideables.add(m);
   }
 }
 void draw() {
   background(255);
-  for (Displayable thing : thingsToDisplay) {
+  for (Rock thing : rocksToDisplay) {
     thing.display();
-  } //this might be bad practice to change display of ball when processing is doing rock
+  }
+  for (Ball b : ballsToDisplay) {
+     b.display();
+     for( Collideable c : listOfCollideables) {
+       if ( c.isTouching(b)){
+        b.crazy();
+       }
+     }
+  } 
   for (Moveable thing : thingsToMove) {
     thing.move();
   }
