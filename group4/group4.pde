@@ -130,6 +130,7 @@ class Ball extends Thing implements Moveable {
   float[] colors = new float[3];
   boolean complex = false;
   boolean crazy = false;
+  int acceleration = 2;
   //float axis1, axis2;
   Ball(float x, float y) {
     super(x, y);
@@ -216,26 +217,29 @@ class Ball extends Thing implements Moveable {
   void move() {
     /* ONE PERSON WRITE THIS  Alex */
      //random movement
-    if (x + axis1 / 2 >= width && y  + axis2 / 2 >= height || x - axis1 / 2 <= 0 && y - axis2 / 2 <= 0){
+    if (x + axis1 / 2 >= width - 20 && y  + axis2 / 2 >= height - 10 || x - axis1 / 2 <= 20 && y - axis2 / 2 <= 10){
        xspeed *= -1; 
        yspeed *= -1;
     } else 
-    if (y  + axis2 / 2 >= height || y - axis2 / 2 <= 0){
+    if (y  + axis2 / 2 >= height - 10 || y - axis2 / 2 <= 10){
        yspeed *= -1; 
      //  xspeed *= - 1;
     } else
-    if (x + axis1 / 2 >= width || x - axis1 / 2 <= 0){
+    if (x + axis1 / 2 >= width - 20 || x - axis1 / 2 <= 20){
       xspeed *= -1;
      // yspeed *= - 1;
     }
-    x += xspeed;
-    y += yspeed;
+    x += xspeed + (1/2) * acceleration * System.currentTimeMillis() / 1000;
+    y += yspeed + (1/2) * acceleration * System.currentTimeMillis() / 1000;
   }
  }
  
  class Ball2 extends Ball{
    PImage img;
    boolean picYes = true;
+   //g and n represent max bounce height for each ball
+   float g = random(height);
+   float n = random(width);
    Ball2(float x, float y, PImage img){
      super(x, y); 
      this.img = img;
@@ -263,18 +267,20 @@ class Ball extends Thing implements Moveable {
    }
    void move() {
     /* ONE PERSON WRITE THIS  Alex */
-     //random movement
+     //random movement with boundaries of height of each bounce
+     
+   
     if (x + axis1 / 2 >= width && y  + axis2 / 2 >= height || x - axis1 / 2 <= 0 && y - axis2 / 2 <= 0){
-       xspeed *= -1; 
-       yspeed *= -1;
+       xspeed *= - random(2);
+        yspeed *= - random(2);
     } else 
     if (y  + axis2 / 2 >= height || y - axis2 / 2 <= 0){
-       yspeed *= -1; 
-     //  xspeed *= - 1;
+      //xspeed *= - random(1);
+      yspeed *= - random(2);
     } else
     if (x + axis1 / 2 >= width || x - axis1 / 2 <= 0){
-      xspeed *= -1;
-     // yspeed *= - 1;
+     xspeed *= - random(2);
+     // yspeed *= - random(1);
     }
     x += xspeed;
     y += yspeed;
