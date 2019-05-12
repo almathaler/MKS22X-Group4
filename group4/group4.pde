@@ -99,7 +99,7 @@ public class LivingRock extends Rock implements Moveable {
   
   void move() { //change x, y by small increments
     if (rng > 3 && rng < 4){
-      cool();
+      far();
     }
     else if (rng > 2 && rng < 3){
       star();
@@ -153,10 +153,10 @@ public class LivingRock extends Rock implements Moveable {
    ogY += random(-1, 1);
   }
   
-  void cool(){
+  void far(){
     angle += 0.05;
-    x = 4* sin(12/13 * angle);
-    y = 3 * sin(angle);
+    x = 400 * sin(12/13 * angle) + ogX;
+    y = 300 * sin(angle) + ogY;
   }
 }
 
