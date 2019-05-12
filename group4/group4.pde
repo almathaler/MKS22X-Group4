@@ -381,12 +381,14 @@ ArrayList<Rock> rocksToDisplay;
 ArrayList<Ball> ballsToDisplay;
 ArrayList<Moveable> thingsToMove;
 ArrayList<Collideable> listOfCollideables;
+ArrayList<LivingRock> livingRocks;
 
 void setup() {
   size(1000, 800);
   //balls image
   ballImg = loadImage("basketball.png");
   rocksToDisplay = new ArrayList<Rock>();
+  livingRocks = new ArrayList<LivingRock>();
   ballsToDisplay = new ArrayList<Ball>(); //made this seperation bc needs to be distinction between balls and other rocks 
   thingsToMove = new ArrayList<Moveable>();
   listOfCollideables = new ArrayList<Collideable>();
@@ -405,6 +407,7 @@ void setup() {
   for (int i = 0; i < 3; i++) {
     LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100));
     rocksToDisplay.add(m);
+    livingRocks.add(m);
     thingsToMove.add(m);
     listOfCollideables.add(m);
   }
@@ -422,6 +425,13 @@ void draw() {
        }
      }
   } 
+  for (LivingRock r: livingRocks) {
+    for (Ball b: ballsToDisplay) {
+      if (r.isTouching(b)) {
+        r.surprised();
+      }
+    }
+  }
   for (Moveable thing : thingsToMove) {
     thing.move();
   }
