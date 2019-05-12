@@ -21,6 +21,7 @@ abstract class Thing implements Displayable, Collideable {
   float angle;
   float ogX;
   float ogY;
+  float rng;
   float axis1; //width
   float axis2; //height
   
@@ -77,11 +78,12 @@ public class LivingRock extends Rock implements Moveable {
   
   LivingRock(float x, float y) {
     super(x, y);
+    rng = random(4);
     xinc = random(-3, 3);
     yinc = random(-3, 3);
     angle = random(360);
-    ogX = random(800);
-    ogY = random(1000);
+    ogX = random(400);
+    ogY = random(500);
     eyes = loadImage("normalEyes.png");
   }
   
@@ -96,25 +98,23 @@ public class LivingRock extends Rock implements Moveable {
   }
   
   void move() { //change x, y by small increments
-  /*  a) Random Movement to test it out
-    b) A simple path (may need some instance variables from here onward)
-    c) A more complex path
-    d) Randomly choose between several paths.  (you may need a new constructor for this)
-    ONE PERSON WRITE THIS */
-   ////////LINEAR///////
-  /*x += xinc;
-  y += yinc;*/
-  
-   ///////ELLIPSE//////
-  /* angle += 0.05;
-   x = 60 * cos(angle) + ogX;
-   y = 80 * sin(angle) + ogY; */
+    if (rng > 3 && rng < 4){
+      cool();
+    }
+    else if (rng > 2 && rng < 3){
+      star();
+    }
     
-   /////STAR/////
-   angle += 0.05;
-   x = 300* pow(cos(angle),3) + ogX;
-   y = 300* pow(sin(angle),3) + ogY;
-   ////////BOUNCING///////// 
+    else if (rng > 1 && rng  < 2){
+       circ();
+    }
+    
+    else{
+       x += xinc;
+       y += yinc;
+    }
+    
+////////BOUNCING///////// 
      if (x >= 1000 || x <= 0){
       xinc *= -1;
     }
@@ -122,8 +122,43 @@ public class LivingRock extends Rock implements Moveable {
       yinc *= -1;
     }
   }
-}
+      
+  /*  a) Random Movement to test it out
+    b) A simple path (may need some instance variables from here onward)
+    c) A more complex path
+    d) Randomly choose between several paths.  (you may need a new constructor for this)
+    ONE PERSON WRITE THIS */
+   ////////LINEAR///////
 
+  
+   ///////ELLIPSE//////
+  /* angle += 0.05;
+   */
+    
+   /////STAR/////
+   
+
+  void star(){
+    angle += 0.05;
+   x = 300* pow(cos(angle),3) + ogX;
+   y = 300* pow(sin(angle),3) + ogY;
+   ogX += random(-1, 1);
+   ogY += random(-1, 1);
+  }
+  
+  void circ(){
+   x = 300* cos(angle) + ogX;
+   y = 300* sin(angle) + ogY;
+   ogX += random(-1, 1);
+   ogY += random(-1, 1);
+  }
+  
+  void cool(){
+    angle += 0.05;
+    x = 4* sin(12/13 * angle);
+    y = 3 * sin(angle);
+  }
+}
 
 class Ball extends Thing implements Moveable {
   float xspeed = random(-5,5);
