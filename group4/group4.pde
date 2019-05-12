@@ -21,6 +21,8 @@ abstract class Thing implements Displayable, Collideable {
   float angle;
   float ogX;
   float ogY;
+  float axis1; //width
+  float axis2; //height
   
 
   Thing(float x, float y) {
@@ -30,16 +32,23 @@ abstract class Thing implements Displayable, Collideable {
   abstract void display();
   //this should be false, it's modified in rock and livign rock but for balls, they should never be touching something
   //like how in the example code on the website, only when a rock is touching a ball is the ball affected
+  
   boolean isTouching(Thing other){
+    
+    if (abs(x - other.x) < axis1 / 2 + other.axis1 / 2 && abs(y - other.y) < axis2 / 2 + other.axis2 / 2) {
+      return true;
+    }
+    
     return false;
   }
+  
 }
 
 class Rock extends Thing {
   PImage img1;
   //PImage img2;
-  int axis1 = 200; //width
-  int axis2 = 100; //height
+  //float axis1; //width
+  //float axis2; //height
   
   Rock(float x, float y) {
     super(x, y);
@@ -48,6 +57,8 @@ class Rock extends Thing {
     } else {
       img1 = loadImage("Rock2.png");
     }
+    axis1 = 200;
+    axis2 = 100;
   }
   
 
@@ -61,15 +72,6 @@ class Rock extends Thing {
     circle(x - 15, y - 15, 10);
     circle(x + 15, y - 15, 10);
     */
-  }
-  
-  boolean isTouching(Thing other) {
-    /*
-    if (abs(x - other.x) < axis1 / 2 + other.axis1 / 2 && abs(y - other.y) < axis2 / 2 + other.axis2 / 2) {
-      return true;
-    }
-    */
-    return false;
   }
 }
 
@@ -128,7 +130,7 @@ class Ball extends Thing implements Moveable {
   float[] colors = new float[3];
   boolean complex = false;
   boolean crazy = false;
-  float axis1, axis2;
+  //float axis1, axis2;
   Ball(float x, float y) {
     super(x, y);
     //random color
