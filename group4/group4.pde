@@ -85,6 +85,7 @@ public class LivingRock extends Rock implements Moveable {
     angle = random(360);
     ogX = random(800);
     ogY = random(1000);
+    rng = random(4);
 
   }
   
