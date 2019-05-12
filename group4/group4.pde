@@ -1,4 +1,3 @@
-
 import java.util.*;
 import java.io.*;
 PImage ballImg;
@@ -70,32 +69,28 @@ class Rock extends Thing {
 public class LivingRock extends Rock implements Moveable {
   PImage eyes;
   PImage surprisedEyes;
+  boolean surprised;
   
   LivingRock(float x, float y) {
     super(x, y);
     xinc = random(-3, 3);
     yinc = random(-3, 3);
     angle = random(360);
-<<<<<<< HEAD
     ogX = random(800);
     ogY = random(1000);
     rng = random(4);
     eyes = loadImage("normalEyes.png");
     surprisedEyes = loadImage("eyes.png");
-=======
-    ogX = random(400);
-    ogY = random(500);
-    rng = random(4);
-
->>>>>>> 2e4a255d24357be4266b56f2fb177dfa6cd34430
+    surprised = false;
   }
   
   void display() {
     super.display();
-    fill(0);
-
-    ellipse(x + 50, y+10, 10, 10);
-    ellipse(x + 80, y+10, 10, 10);
+    if (surprised) {
+      image(surprisedEyes, x + 50, y + 10, 50, 50);
+    } else {
+      image(eyes, x + 50, y + 10, 50, 25);
+    }
   }
   
   void move() { //change x, y by small increments
@@ -141,40 +136,24 @@ public class LivingRock extends Rock implements Moveable {
 
   void star(){
     angle += 0.05;
-<<<<<<< HEAD
    x = 300* pow(cos(angle),3) + ogX;
    y = 300* pow(sin(angle),3) + ogY;
-=======
-   x = 150* pow(cos(angle),3) + ogX;
-   y = 150* pow(sin(angle),3) + ogY;
->>>>>>> 2e4a255d24357be4266b56f2fb177dfa6cd34430
    ogX += random(-1, 1);
    ogY += random(-1, 1);
   }
   
   void circ(){
    angle += 0.05;
-<<<<<<< HEAD
    x = 300* cos(angle) + ogX;
    y = 300* sin(angle) + ogY;
-=======
-   x = 150* cos(angle) + ogX;
-   y = 150* sin(angle) + ogY;
->>>>>>> 2e4a255d24357be4266b56f2fb177dfa6cd34430
    ogX += random(-1, 1);
    ogY += random(-1, 1);
   }
   
   void far(){
-<<<<<<< HEAD
     angle += 0.05;
     x = 400 * sin(12/13 * angle) + ogX;
     y = 300 * sin(angle) + ogY;
-=======
-    angle += 0.005;
-    x = 140 * sin(120/13 * angle) + ogX;
-    y = 130 * sin(angle) + ogY;
->>>>>>> 2e4a255d24357be4266b56f2fb177dfa6cd34430
   }
 }
 
