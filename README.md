@@ -40,5 +40,9 @@ either very plane ellipse or basketball
 
 Hilary: Finished isTouching, moved variables and methods to Thing
 
-
+5/12
+Alma: made isTouching behavior for balls, edited setup
+Hilary: made rock behavior, edited setup
+Alex: more variety in movement
+Kevin: more variety in movement
 -Any help/outside sources
