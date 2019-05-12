@@ -73,6 +73,8 @@ class Rock extends Thing {
 }
 
 public class LivingRock extends Rock implements Moveable {
+  PImage eyes;
+  
   LivingRock(float x, float y) {
     super(x, y);
     xinc = random(-3, 3);
@@ -80,15 +82,17 @@ public class LivingRock extends Rock implements Moveable {
     angle = random(360);
     ogX = random(800);
     ogY = random(1000);
-
+    eyes = loadImage("eyes.png");
   }
   
   void display() {
     super.display();
+    image(eyes, x + 80, y + 10, 50, 50);
+    /* Old eyes
     fill(0);
-
     ellipse(x + 50, y+10, 10, 10);
     ellipse(x + 80, y+10, 10, 10);
+    */
   }
   
   void move() { //change x, y by small increments
