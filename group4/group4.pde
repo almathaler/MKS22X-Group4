@@ -37,7 +37,7 @@ abstract class Thing implements Displayable, Collideable {
   
   boolean isTouching(Thing other){
     
-    if (abs(x - other.x) < axis1 / 2 + other.axis1 / 2 && abs(y - other.y) < axis2 / 2 + other.axis2 / 2) {
+    if (abs(x - other.x) < (axis1 - 20) / 2 + other.axis1 / 2 && abs(y - other.y) < (axis2 - 20) / 2 + other.axis2 / 2) {
       return true;
     }
     
@@ -420,7 +420,7 @@ void setup() {
   rocksToDisplay = new ArrayList<Rock>();
   ballsToDisplay = new ArrayList<Ball>(); //made this seperation bc needs to be distinction between balls and other rocks 
   thingsToMove = new ArrayList<Moveable>();
-  listOfCollideables = new ArrayList<Collideable>();
+  //listOfCollideables = new ArrayList<Collideable>();
   
   for (int i = 0; i < 10; i++) {
     if (random(3) >= 2){
@@ -441,13 +441,13 @@ void setup() {
     }
     Rock r = new Rock(50+random(width-100), 50+random(height-100));
     rocksToDisplay.add(r);
-    listOfCollideables.add(r);
+    //listOfCollideables.add(r);
   }
   for (int i = 0; i < 3; i++) {
     LivingRock m = new LivingRock(50+random(width-100), 50+random(height-100));
     rocksToDisplay.add(m);
     thingsToMove.add(m);
-    listOfCollideables.add(m);
+    //listOfCollideables.add(m);
   }
 }
 void draw() {
