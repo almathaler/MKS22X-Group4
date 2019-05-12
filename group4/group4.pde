@@ -101,8 +101,8 @@ public class LivingRock extends Rock implements Moveable {
     
    /////STAR/////
    angle += 0.05;
-   x = 60* pow(cos(angle),3) + ogX;
-   y = 80* pow(sin(angle),3) + ogY;
+   x = 300* pow(cos(angle),3) + ogX;
+   y = 300* pow(sin(angle),3) + ogY;
    ////////BOUNCING///////// 
      if (x >= 1000 || x <= 0){
       xinc *= -1;
