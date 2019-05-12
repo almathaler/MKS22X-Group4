@@ -35,7 +35,7 @@ abstract class Thing implements Displayable, Collideable {
   
   boolean isTouching(Thing other){
     
-    if (abs(x - other.x) < axis1 / 2 + other.axis1 / 2 && abs(y - other.y) < axis2 / 2 + other.axis2 / 2) {
+    if (abs(x - other.x) < (axis1-20) / 2 + other.axis1 / 2 && abs(y - other.y) < (axis2-20) / 2 + other.axis2 / 2) {
       return true;
     }
     
@@ -190,8 +190,8 @@ class Ball extends Thing implements Moveable {
       float r, g, b;
       if (crazy) {
         r = 255;
-        g = 0;
-        b = 0;
+        g = 255;
+        b = 255;
       }else{
         r = colors[0];
         g = colors[1];
@@ -216,8 +216,8 @@ class Ball extends Thing implements Moveable {
        //not sure how to make change to colors affect rgb only when not crazy so j rewrite the if statemetn
        if (crazy) {
         r = 255;
-        g = 0;
-        b = 0;
+        g = 255;
+        b = 255;
       }else{
         r = colors[0];
         g = colors[1];
