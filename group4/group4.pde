@@ -46,9 +46,6 @@ abstract class Thing implements Displayable, Collideable {
 
 class Rock extends Thing {
   PImage img1;
-  //PImage img2;
-  //float axis1; //width
-  //float axis2; //height
   
   Rock(float x, float y) {
     super(x, y);
@@ -76,6 +73,10 @@ class Rock extends Thing {
 }
 
 public class LivingRock extends Rock implements Moveable {
+  PImage eyes;
+  PImage surprisedEyes;
+  boolean surprised;
+  
   LivingRock(float x, float y) {
     super(x, y);
     xinc = random(-3, 3);
@@ -83,15 +84,27 @@ public class LivingRock extends Rock implements Moveable {
     angle = random(360);
     ogX = random(800);
     ogY = random(1000);
-
+    eyes = loadImage("normalEyes.png");
+    surprisedEyes = loadImage("eyes.png");
+    surprised = false;
   }
   
   void display() {
     super.display();
+    if (surprised) {
+      image(surprisedEyes, x + 80, y + 10, 50, 25);
+    } else {
+      image(eyes, x + 80, y + 10, 50, 25);
+    }
+    /* Old eyes
     fill(0);
-
     ellipse(x + 50, y+10, 10, 10);
     ellipse(x + 80, y+10, 10, 10);
+    */
+  }
+  
+  void surprised() {
+    surprised = true;
   }
   
   void move() { //change x, y by small increments
