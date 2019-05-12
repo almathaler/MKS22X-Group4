@@ -377,7 +377,7 @@ class Ball extends Thing implements Moveable {
 ArrayList<Rock> rocksToDisplay;
 ArrayList<Ball> ballsToDisplay;
 ArrayList<Moveable> thingsToMove;
-ArrayList<Collideable> listOfCollideables;
+//ArrayList<Collideable> listOfCollideables;
 
 void setup() {
   size(1000, 800);
@@ -423,8 +423,8 @@ void draw() {
   }
   for (Ball b : ballsToDisplay) {
      b.display();
-     for( Collideable c : listOfCollideables) {
-       if ( c.isTouching(b)){
+     for( Rock r : rocksToDisplay) {
+       if ( r.isTouching(b)){
         b.crazy();
        }
      }
