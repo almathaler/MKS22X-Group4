@@ -88,8 +88,8 @@ public class LivingRock extends Rock implements Moveable {
   
   void display() {
     super.display();
-    eyeX = x + 80 + (500 - x) / 20;
-    eyeY = y + 40 + (400 - y) / 20;
+    eyeX = x + 80 + (500 - x) / 15;
+    eyeY = y + 30 + (400 - y) / 15;
     if (surprised) {
       image(surprisedEyes, eyeX, eyeY, 50, 50);
     } else {
