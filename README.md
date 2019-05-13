@@ -52,4 +52,5 @@ Alex: more variety in movement
 
 Kevin: playing around with values to center objects more
 
+note about ball display: the pulsing colors were o[n purpose
 -Any help/outside sources
