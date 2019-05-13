@@ -70,6 +70,8 @@ public class LivingRock extends Rock implements Moveable {
   PImage eyes;
   PImage surprisedEyes;
   boolean surprised;
+  float eyeX;
+  float eyeY;
   
   LivingRock(float x, float y) {
     super(x, y);
@@ -86,10 +88,12 @@ public class LivingRock extends Rock implements Moveable {
   
   void display() {
     super.display();
+    eyeX = x + 80 + (500 - x) / 20;
+    eyeY = y + 40 + (400 - y) / 20;
     if (surprised) {
-      image(surprisedEyes, x + 50, y + 10, 50, 50);
+      image(surprisedEyes, eyeX, eyeY, 50, 50);
     } else {
-      image(eyes, x + 50, y + 10, 50, 25);
+      image(eyes, eyeX, eyeY, 50, 25);
     }
   }
   
