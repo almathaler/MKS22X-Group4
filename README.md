@@ -46,7 +46,7 @@ Kevin: Created more variety in movements
 
 Alma: made isTouching behavior for balls, edited setup
 
-Hilary: made rock behavior, edited setup
+Hilary: made rock behavior when touching a ball, edited setup, added eye movement
 
 Alex: more variety in movement
 
